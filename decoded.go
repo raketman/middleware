@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func GetPayload (token Token) ([]byte, error) {
+func getPayload (token Token) ([]byte, error) {
 	splitToken := strings.Split(token.Token, ".")
 	if len(splitToken) != 3 {
 		return []byte(""), &Error{Message:"Некорректный токен"}

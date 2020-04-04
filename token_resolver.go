@@ -25,8 +25,6 @@ func (t DefaultTokenResolver) ResolveToken(r *http.Request) (Token, error) {
 			return Token{}, &Error{Message: "Не удалось найти токен"}
 		}
 	} else {
-		// Query()["key"] will return an array of items,
-		// we only want the single item.
 		token = string(keys[0])
 	}
 

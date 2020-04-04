@@ -7,7 +7,7 @@ import (
 var cachedAlgs map[string]jwt.Algorithm // чтобы не создавать постоянно
 var isFirstCall bool
 
-func CreateAlg(client Client) (jwt.Algorithm, error) {
+func сreateAlg(client Client) (jwt.Algorithm, error) {
 	if isFirstCall == false {
 		isFirstCall = true
 		cachedAlgs = make(map[string]jwt.Algorithm)

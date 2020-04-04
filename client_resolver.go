@@ -28,7 +28,7 @@ func (t DefaultClientResolver) ResolveClient (r *http.Request) (Client, error)  
 		return Client{}, err
 	}
 
-	payload, err := GetPayload(token)
+	payload, err := getPayload(token)
 
 	if err != nil {
 		return Client{}, err

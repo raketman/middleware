@@ -5,7 +5,6 @@ import (
 	"net/http"
 )
 
-// Конфигурация
 type Middleware struct {
 	TokenResolver TokenResolverContract
 	ClientResolver ClientResolverContract
@@ -28,8 +27,7 @@ func (m Middleware) Handle(r *http.Request) Response {
 		return response
 	}
 
-	// Найти как строить разные хэши
-	hs, errAlg := CreateAlg(client)
+	hs, errAlg := сreateAlg(client)
 
 	if errAlg != nil {
 		response.Message = err.Error()
@@ -43,7 +41,7 @@ func (m Middleware) Handle(r *http.Request) Response {
 		response.Message = err.Error()
 		return response
 	}
-	payload, err := GetPayload(token)
+	payload, err := getPayload(token)
 
 	response.Status = StatusSuccess
 	response.Payload = string(payload)

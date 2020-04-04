@@ -1,0 +1,10 @@
+{
+  "clients": [
+    {
+      "code": "code",
+      "secret": "secret",
+      "alg": "alg!!!!!",
+      "default": false
+    }
+  ]
+}

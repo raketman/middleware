@@ -2,10 +2,7 @@ package middleware
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
-	"strings"
-	"encoding/base64"
 )
 
 var clients []Client
@@ -31,28 +28,20 @@ func (t DefaultClientResolver) ResolveClient (r *http.Request) (Client, error)  
 		return Client{}, err
 	}
 
-	// Расшифруем токен возьмем оттуда iss
-	log.Print("TOKEN:", token)
+	payload, err := GetPayload(token)
 
-	splitToken := strings.Split(token.Token, ".")
-	if len(splitToken) == 3 {
-		log.Print("TOKEN:", splitToken[1])
+	if err != nil {
+		return Client{}, err
+	}
 
-		encoding := base64.RawURLEncoding
-		decoded := make([]byte, encoding.DecodedLen(len(splitToken[1])))
-		if _, err := encoding.Decode(decoded, []byte(splitToken[1])); err != nil {
-			return Client{}, err
-		}
+	issPayload := innerPayload{Iss:""}
+	json.Unmarshal(payload, &issPayload)
 
-		issPayload := innerPayload{Iss:""}
-		json.Unmarshal(decoded, &issPayload)
-
-		if len(issPayload.Iss) > 0 {
-			// найдем клиент, если совпадает код
-			for _, client := range clients {
-				if client.Code ==  issPayload.Iss{
-					return client, nil
-				}
+	if len(issPayload.Iss) > 0 {
+		// найдем клиент, если совпадает код
+		for _, client := range clients {
+			if client.Code ==  issPayload.Iss{
+				return client, nil
 			}
 		}
 	}

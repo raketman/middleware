@@ -1,8 +1,7 @@
 package middleware
 
 import (
-	"fmt"
-	//"github.com/gbrlsnchs/jwt"
+	"github.com/gbrlsnchs/jwt/v3"
 	"net/http"
 )
 
@@ -11,8 +10,6 @@ type Middleware struct {
 	TokenResolver TokenResolverContract
 	ClientResolver ClientResolverContract
 }
-
-//var cacheJwtVerificators map[string]jwt.Ver // чтобы не создавать постоянно
 
 func (m Middleware) Handle(r *http.Request) Response {
 	response := Response{Status: StatusError}
@@ -24,8 +21,6 @@ func (m Middleware) Handle(r *http.Request) Response {
 		return response
 	}
 
-	//jwt.Sign()
-
 	client, err := m.ClientResolver.ResolveClient(r)
 
 	if err != nil {
@@ -33,11 +28,25 @@ func (m Middleware) Handle(r *http.Request) Response {
 		return response
 	}
 
-	fmt.Println("TOKEN:", token.Token, "CLIENT", client)
-	// Проверим токен (зараенн
+	// Найти как строить разные хэши
+	hs, errAlg := CreateAlg(client)
 
+	if errAlg != nil {
+		response.Message = err.Error()
+		return response
+	}
+
+	var pl jwt.Payload
+
+	_, err = jwt.Verify([]byte(token.Token), hs, &pl)
+	if err != nil {
+		response.Message = err.Error()
+		return response
+	}
+	payload, err := GetPayload(token)
 
 	response.Status = StatusSuccess
+	response.Payload = string(payload)
 
 	return response
 }

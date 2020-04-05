@@ -1,4 +1,4 @@
-####Пакет для реализации гибкого go get -u allmiddleware
+####Пакет для реализации гибкого middleware
 
 "github.com/raketman/middleware"
 
@@ -27,10 +27,9 @@ type Response struct {
 Также в пакет входит контракт
  - AvailableClientResolverContract, который отвечает за получение списка клиентов
 
-Пример реализаци, в пакете поставлются классы по умолчанию, которым реализует необходимые контракты
+Пример реализаци, в пакете поставляются классы по умолчанию, которые реализуют необходимые контракты
 
 ```
-
 availableClientResolver = middleware.DefaultAvailableClientResolver{FilePath:"clients.json"}
 tokenResolver = middleware.DefaultTokenResolver{Request: r}
 clientResolver = middleware.DefaultClientResolver{AvailableClient: availableClientResolver, Request: r}

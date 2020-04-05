@@ -1,4 +1,4 @@
-####Пакет для авторизации через net/http
+####Пакет для реализации гибкого middleware
 
 "github.com/raketman/middleware"
 

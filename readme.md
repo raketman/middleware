@@ -6,6 +6,19 @@
 
 middleware.Middleware
 
+```
+Метод 
+Handle(tokenResolver TokenResolverContract, clientResolver ClientResolverContract) Response
+
+type Response struct {
+	Status string // статус операции
+	Payload string // полезная нагрузка в json
+	Message string // текст статуса
+}
+
+```
+
+
 Для его создания необходимо 2 контракта:
  - TokenResolverContract - класс для получения токена из запроса
  - ClientResolverContract - класс для определения клиента

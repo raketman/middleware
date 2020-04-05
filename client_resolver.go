@@ -55,5 +55,5 @@ func (t DefaultClientResolver) ResolveClient () (Client, error)  {
 		}
 	}
 
-	return Client{}, &Error{Message: "Не найден клиент"}
+	return Client{}, &Error{Message: "Client not found"}
 }

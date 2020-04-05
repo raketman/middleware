@@ -1,5 +1,7 @@
 package middleware
 
+import "fmt"
+
 const StatusSuccess = "success"
 const StatusError = "error"
 
@@ -25,5 +27,5 @@ type Error struct {
 }
 
 func (e *Error) Error() string {
-	return e.Message
+	return fmt.Sprintf("%s", e.Message)
 }

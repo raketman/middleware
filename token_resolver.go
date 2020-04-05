@@ -25,7 +25,7 @@ func (t DefaultTokenResolver) ResolveToken() (Token, error) {
 		}
 
 		if len(token) == 0 {
-			return Token{}, &Error{Message: "Не удалось найти токен"}
+			return Token{}, &Error{Message: "Token not found"}
 		}
 	} else {
 		token = string(keys[0])

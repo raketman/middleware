@@ -8,7 +8,7 @@ import (
 func getPayload (token Token) ([]byte, error) {
 	splitToken := strings.Split(token.Token, ".")
 	if len(splitToken) != 3 {
-		return []byte(""), &Error{Message:"Некорректный токен"}
+		return []byte(""), &Error{Message:"Incorrect token"}
 	}
 
 	return decoded(splitToken[1])

@@ -28,7 +28,7 @@ func сreateAlg(client Client) (jwt.Algorithm, error) {
 		cachedAlgs[client.Code] = jwt.NewHS512([]byte(client.Secret))
 		break
 	default:
-		return nil, &Error{Message:"Неизвестный алгоритм"}
+		return nil, &Error{Message:"Unknown alg"}
 	}
 
 	return cachedAlgs[client.Code], nil

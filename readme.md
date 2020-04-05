@@ -1,4 +1,4 @@
-####Пакет для реализации гибкого middleware
+####Пакет для реализации гибкого go get -u allmiddleware
 
 "github.com/raketman/middleware"
 
@@ -23,6 +23,13 @@ tokenResolver = middleware.DefaultTokenResolver{Request: r}
 clientResolver = middleware.DefaultClientResolver{AvailableClient: availableClientResolver, Request: r}
 
 response := middlewareClient.Handle(tokenResolver, clientResolver)
+
+if response.Status == middleware.StatusSuccess {
+    w.Write([]byte(response.Payload))
+} else {
+    w.WriteHeader(http.StatusForbidden)
+    w.Write([]byte(response.Message))
+}
 
 ``` 
 

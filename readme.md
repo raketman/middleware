@@ -1,4 +1,4 @@
-####Для подключения
+####Пакет для авторизации через net/http
 
 "github.com/raketman/middleware"
 
@@ -19,16 +19,10 @@ middleware.Middleware
 ```
 
 availableClientResolver = middleware.DefaultAvailableClientResolver{FilePath:"clients.json"}
-tokenResolver = middleware.DefaultTokenResolver{}
-clientResolver = middleware.DefaultClientResolver{
-    AvailableClient: availableClientResolver,
-    TokenResolver:   tokenResolver,
-}
+tokenResolver = middleware.DefaultTokenResolver{Request: r}
+clientResolver = middleware.DefaultClientResolver{AvailableClient: availableClientResolver, Request: r}
 
-middlewareClient := middleware.Middleware{
-    TokenResolver:  tokenResolver,
-    ClientResolver: clientResolver,
-}
+response := middlewareClient.Handle(tokenResolver, clientResolver)
 
 ``` 
 

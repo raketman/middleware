@@ -12,20 +12,14 @@ var clientResolver middleware.ClientResolverContract
 
 func main() {
 	availableClientResolver = middleware.DefaultAvailableClientResolver{FilePath:"clients.json"}
-	tokenResolver = middleware.DefaultTokenResolver{}
-	clientResolver = middleware.DefaultClientResolver{
-		AvailableClient: availableClientResolver,
-		TokenResolver:   tokenResolver,
-	}
-
-	middlewareClient := middleware.Middleware{
-		TokenResolver:  tokenResolver,
-		ClientResolver: clientResolver,
-	}
+	middlewareClient := middleware.Middleware{}
 
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		response := middlewareClient.Handle(r)
+		tokenResolver = middleware.DefaultTokenResolver{Request: r}
+		clientResolver = middleware.DefaultClientResolver{AvailableClient: availableClientResolver, Request: r}
+
+		response := middlewareClient.Handle(tokenResolver, clientResolver)
 
 		log.Println("Response:", response)
 		if response.Status == middleware.StatusSuccess {

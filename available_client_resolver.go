@@ -14,8 +14,6 @@ type configuration struct {
 	Clients []Client
 }
 
-
-
 func (d DefaultAvailableClientResolver) GetClients()  []Client {
 	file, _ := os.Open(d.FilePath)
 	decoder := json.NewDecoder(file)

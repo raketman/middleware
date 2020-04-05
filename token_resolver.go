@@ -5,16 +5,19 @@ import (
 	"strings"
 )
 
-type DefaultTokenResolver struct {}
+type DefaultTokenResolver struct {
+	Request *http.Request
+}
 
-func (t DefaultTokenResolver) ResolveToken(r *http.Request) (Token, error) {
-	keys, ok := r.URL.Query()["access_token"]
+func (t DefaultTokenResolver) ResolveToken() (Token, error) {
+	keys, ok := t.Request.URL.Query()["access_token"]
+
 
 	var token string
 
 	if !ok || len(keys[0]) < 1 {
 		// Пробуем найти в заголовках
-		token = r.Header.Get("Authorization")
+		token = t.Request.Header.Get("Authorization")
 
 		splitToken := strings.Split(token, "Bearer ")
 		if len(splitToken) == 2 {

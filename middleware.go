@@ -2,25 +2,22 @@ package middleware
 
 import (
 	"github.com/gbrlsnchs/jwt/v3"
-	"net/http"
 )
 
 type Middleware struct {
-	TokenResolver TokenResolverContract
-	ClientResolver ClientResolverContract
 }
 
-func (m Middleware) Handle(r *http.Request) Response {
+func (m Middleware) Handle(tokenResolver TokenResolverContract, clientResolver ClientResolverContract) Response {
 	response := Response{Status: StatusError}
 
-	token, err := m.TokenResolver.ResolveToken(r)
+	token, err := tokenResolver.ResolveToken()
 
 	if err != nil {
 		response.Message = err.Error()
 		return response
 	}
 
-	client, err := m.ClientResolver.ResolveClient(r)
+	client, err := clientResolver.ResolveClient()
 
 	if err != nil {
 		response.Message = err.Error()

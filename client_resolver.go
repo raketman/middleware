@@ -10,19 +10,21 @@ var err error
 
 type DefaultClientResolver struct {
 	AvailableClient AvailableClientResolverContract
-	TokenResolver TokenResolverContract
+	Request *http.Request
 }
 
 type innerPayload struct {
 	Iss string
 }
 
-func (t DefaultClientResolver) ResolveClient (r *http.Request) (Client, error)  {
+func (t DefaultClientResolver) ResolveClient () (Client, error)  {
 	if len(clients) == 0 {
 		clients = t.AvailableClient.GetClients()
 	}
 
-	token, err := t.TokenResolver.ResolveToken(r)
+	tokenResolver := DefaultTokenResolver{Request:t.Request}
+
+	token, err := tokenResolver.ResolveToken()
 
 	if err != nil {
 		return Client{}, err
